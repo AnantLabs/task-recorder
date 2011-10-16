@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskRecorder", "TaskRecorder\TaskRecorder.csproj", "{6261D4BF-B346-4127-8EFD-488767E094F0}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{88D0A672-D199-4DDF-A170-A8DD8DFAA1FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,8 @@ Global
 		{6261D4BF-B346-4127-8EFD-488767E094F0}.Debug|x86.Build.0 = Debug|x86
 		{6261D4BF-B346-4127-8EFD-488767E094F0}.Release|x86.ActiveCfg = Release|x86
 		{6261D4BF-B346-4127-8EFD-488767E094F0}.Release|x86.Build.0 = Release|x86
+		{88D0A672-D199-4DDF-A170-A8DD8DFAA1FF}.Debug|x86.ActiveCfg = Debug
+		{88D0A672-D199-4DDF-A170-A8DD8DFAA1FF}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

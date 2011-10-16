@@ -34,9 +34,24 @@ namespace TaskRecorder
             dispatcherTimer.Interval = new TimeSpan(0, intervalMinutes, 0);
         }
 
+        public bool NotifyOn { get; set; }
+
         void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             UnAssignedMinutes += intervalMinutes;
+            if (NotifyOn)
+            {
+                Notify();
+            }
+        }
+
+        private void Notify()
+        {
+            if (WindowState == WindowState.Minimized)
+            {
+                WindowState = WindowState.Normal;
+            }
+            Activate();
         }
 
         private TaskService taskService = new TaskService();

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:my="clr-namespace:TaskRecorder"
         xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
-        Title="Task Recorder" Height="350" Width="525" WindowStyle="SingleBorderWindow" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+        Title="Task Recorder" Height="350" Width="525" WindowStyle="SingleBorderWindow" DataContext="{Binding RelativeSource={RelativeSource Self}}" Icon="/TaskRecorder;component/Icons/hourglass.ico">
 
     <Window.Resources>
         <my:DateConverter x:Key="dateConverter"/>
@@ -48,6 +48,7 @@
                 <extToolkit:ButtonSpinner Spin="DateSpinner_Spin" FlowDirection="RightToLeft" Margin="20,0,20,0" Height="25">
                     <DatePicker BorderThickness="0" SelectedDate="{Binding Path=TaskService.CurrentDate}" FlowDirection="LeftToRight" />
                 </extToolkit:ButtonSpinner>
+                <CheckBox Content="Notify" ToolTip="Notify periodically" IsChecked="{Binding NotifyOn}"/>
                 <Button Click="Export_Click" ToolTip="Export to spreadsheet">
                     <Image Source="Icons/x_office_spreadsheet.png"/>
                 </Button>
@@ -74,5 +75,6 @@
             <Label Content="Unassigned time:" Visibility="{Binding TimerVisibility}"/>
             <Label Content="{Binding Path=UnAssignedMinutes, Converter={StaticResource minutesToTimeStringConverter}}" Visibility="{Binding TimerVisibility}"/>
         </StackPanel>
+        
     </Grid>
 </Window>

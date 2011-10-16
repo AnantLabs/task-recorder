@@ -7,11 +7,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("TaskRecorder")]
+[assembly: AssemblyTitle("Task Recorder")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("TaskRecorder")]
+[assembly: AssemblyCompany("Mikko Väänänen")]
+[assembly: AssemblyProduct("Task Recorder")]
 [assembly: AssemblyCopyright("Copyright © Mikko Väänänen 2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
