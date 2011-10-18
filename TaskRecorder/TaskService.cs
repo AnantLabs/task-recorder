@@ -13,13 +13,16 @@ namespace TaskRecorder
     public class TaskService : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        private static readonly TaskService instance = new TaskService();
 
-        public TaskService()
+        private TaskService()
         {
             DBUtils.EnsureDBExists(CheckDBContents);
             AttachEventHandlers();
             SetTasksByDate();
         }
+
+        public static TaskService Instance { get { return instance; } }
 
         private void CheckDBContents()
         {
