@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="TaskRecorder.DayView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:my="clr-namespace:TaskRecorder"
+             xmlns:extToolkit="http://schemas.microsoft.com/winfx/2006/xaml/presentation/toolkit/extended"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             d:DesignHeight="350" d:DesignWidth="525">
+
+    <Control.Resources>
+        <my:MinutesToTimeStringConverter x:Key="minutesToTimeStringConverter"/>
+
+        <Style TargetType="{x:Type Button}" x:Key="DisabledImageStyle">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.30"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Control.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <ToolBarTray Grid.Row="1" Grid.Column="0">
+            <ToolBar Band="1" BandIndex="1">
+                <Button Click="AddTask_Click" ToolTip="Add new task" Margin="0, 0, 20, 0">
+                    <Image Source="Icons/list_add.png"/>
+                </Button>
+                <Button Click="StartTimer_Click" Visibility="{Binding TimerVisibility}" ToolTip="Start timer" IsEnabled="{Binding TimerNotRunning}" Style="{StaticResource DisabledImageStyle}">
+                    <Image Source="Icons/media_playback_start.png"/>
+                </Button>
+                <Button Click="PauseTimer_Click" Visibility="{Binding TimerVisibility}" ToolTip="Pause timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}">
+                    <Image Source="Icons/media_playback_pause.png"/>
+                </Button>
+                <Button Click="ResetTimer_Click" Visibility="{Binding TimerVisibility}" ToolTip="Reset timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}">
+                    <Image Source="Icons/media_playback_stop.png"/>
+                </Button>
+                <extToolkit:ButtonSpinner Spin="DateSpinner_Spin" FlowDirection="RightToLeft" Margin="20,0,20,0" Height="25">
+                    <DatePicker BorderThickness="0" SelectedDate="{Binding Source={x:Static my:TaskService.Instance}, Path=CurrentDate}" FlowDirection="LeftToRight" />
+                </extToolkit:ButtonSpinner>
+                <CheckBox Content="Notify" ToolTip="Flash task bar icon after timer period" IsChecked="{Binding NotifyOn}"/>
+                <Button Click="Export_Click" ToolTip="Export to spreadsheet">
+                    <Image Source="Icons/x_office_spreadsheet.png"/>
+                </Button>
+            </ToolBar>
+        </ToolBarTray>
+
+        <DataGrid Grid.Row="2" Grid.Column="0" Name="dataGrid1" ItemsSource="{Binding Source={x:Static my:TaskService.Instance}, Path=Tasks}" AlternatingRowBackground="#FFEBEBEB" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" CommandManager.PreviewExecuted="dgData_PreviewExecuted" SelectionMode="Single" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="*" Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Header="Task name" />
+                <DataGridTextColumn Width="*" Binding="{Binding UpdateSourceTrigger=LostFocus, Path=Category, Mode=TwoWay}" Header="Category" />
+                <DataGridTemplateColumn Header="Time spent" IsReadOnly="True" CanUserResize="False">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <extToolkit:ButtonSpinner BorderThickness="0" Spin="TimeSpinner_Spin">
+                                <Label Content="{Binding Path=Time, Converter={StaticResource minutesToTimeStringConverter}}" />
+                            </extToolkit:ButtonSpinner>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Width="Auto" Orientation="Horizontal" >
+            <Label Content="Unassigned time:" Visibility="{Binding TimerVisibility}"/>
+            <Label Content="{Binding Path=UnAssignedMinutes, Converter={StaticResource minutesToTimeStringConverter}}" Visibility="{Binding TimerVisibility}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Width="Auto" Orientation="Horizontal" >
+            <Label Content="Total:" />
+            <Label Content="{Binding Path=TotalTime, Converter={StaticResource minutesToTimeStringConverter}}" />
+        </StackPanel>
+
+    </Grid>
+</UserControl>
