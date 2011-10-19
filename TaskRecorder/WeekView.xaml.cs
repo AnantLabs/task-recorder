@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.Globalization;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Itenso.TimePeriod;
 
 namespace TaskRecorder
 {
@@ -41,7 +42,7 @@ namespace TaskRecorder
             }
             set
             {
-                year = value;
+                year = Math.Max(2000, value);
                 NotifyPropertyChanged("Year");
                 NotifyPropertyChanged("WeekStartDate");
                 NotifyPropertyChanged("WeekEndDate");
@@ -68,29 +69,22 @@ namespace TaskRecorder
         {
             get
             {
-                return FirstDateOfWeek(Year, Week).Date;
+                return new Week(Year, Week).Start;
             }
         }
 
-        private DateTime FirstDateOfWeek(int year, int weekNum)
+        private int WeeksPerYear(int year)
         {
-            DateTime jan1 = new DateTime(year, 1, 1);
+            DateTime lastDay = new DateTime(year, 12, 28);
+            return Calendar.GetWeekOfYear(lastDay, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
 
-            int daysOffset = DayOfWeek.Monday - jan1.DayOfWeek;
-            DateTime firstMonday = jan1.AddDays(daysOffset);
-
-            CultureInfo myCI = new CultureInfo("en-US");
-            var cal = myCI.Calendar;
-            int firstWeek = cal.GetWeekOfYear(jan1, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
-
-            if (firstWeek <= 1)
+        private System.Globalization.Calendar Calendar
+        {
+            get
             {
-                weekNum -= 1;
+                return new CultureInfo("fi-FI").Calendar;
             }
-
-            DateTime result = firstMonday.AddDays(weekNum * 7);
-
-            return result;
         }
 
         public DateTime WeekEndDate
@@ -103,8 +97,7 @@ namespace TaskRecorder
 
         private int GetWeekNumber(DateTime date)
         {
-            CultureInfo myCI = new CultureInfo("en-US");
-            return myCI.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            return Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
 
         private void NotifyPropertyChanged(string propertyName)
@@ -120,13 +113,32 @@ namespace TaskRecorder
             Microsoft.Windows.Controls.ButtonSpinner spinner = (Microsoft.Windows.Controls.ButtonSpinner)sender;
             int change = e.Direction == Microsoft.Windows.Controls.SpinDirection.Increase ? 1 : -1;
             Year += change;
+
+            if (Week == 53 && WeeksPerYear(Year) == 52)
+            {
+                Week = 52;
+            }
         }
 
         private void SpinWeek(object sender, Microsoft.Windows.Controls.SpinEventArgs e)
         {
             Microsoft.Windows.Controls.ButtonSpinner spinner = (Microsoft.Windows.Controls.ButtonSpinner)sender;
             int change = e.Direction == Microsoft.Windows.Controls.SpinDirection.Increase ? 1 : -1;
-            Week += change;
+            int newWeek = Week + change;
+            if (newWeek == 0)
+            {
+                Year -= 1;
+                Week = WeeksPerYear(Year);
+            }
+            else if (newWeek > WeeksPerYear(Year))
+            {
+                Year += 1;
+                Week = 1;
+            }
+            else
+            {
+                Week = newWeek;
+            }
         }
 
 
