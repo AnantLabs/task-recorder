@@ -2,9 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:uc="clr-namespace:TaskRecorder"
-        Title="Task Recorder" Height="350" Width="525" WindowStyle="SingleBorderWindow" DataContext="{Binding RelativeSource={RelativeSource Self}}" Icon="/TaskRecorder;component/Icons/hourglass.ico">
+        Title="Task Recorder" Height="400" Width="600" WindowStyle="SingleBorderWindow" DataContext="{Binding RelativeSource={RelativeSource Self}}" Icon="/TaskRecorder;component/Icons/hourglass.ico">
 
-    <TabControl Margin="5">
+    <TabControl Margin="5" SelectionChanged="TabControl_SelectionChanged">
         <TabItem Header="Day">
             <uc:DayView />
         </TabItem>

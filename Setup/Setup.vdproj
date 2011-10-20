@@ -122,6 +122,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.0,Profile=Client"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4 Client Profile (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
         "Release"
@@ -296,11 +309,6 @@
             "AssemblyAsmDisplayName" = "8:System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_56C5B70D8A7C6D1ACA6BFCB986B65A9F"
-                    {
-                    "Name" = "8:System.Data.SqlServerCe.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Data.SqlServerCe.dll"
             "TargetName" = "8:"
@@ -347,11 +355,6 @@
             "AssemblyAsmDisplayName" = "8:WPFToolkit.Extended, Version=1.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_597C8D6403F35727A30E990F80CFDBA2"
-                    {
-                    "Name" = "8:WPFToolkit.Extended.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:WPFToolkit.Extended.dll"
             "TargetName" = "8:"
@@ -467,15 +470,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Task Recorder"
-        "ProductCode" = "8:{A8CB28E5-664B-4DDE-BB50-75269D904502}"
-        "PackageCode" = "8:{CDC37273-5760-4001-A197-089537B3280E}"
+        "ProductCode" = "8:{3E3D3732-A87A-4686-9C8E-25D88D290162}"
+        "PackageCode" = "8:{D7F43703-AFBD-4EE1-8A4D-1CCCB08BA84B}"
         "UpgradeCode" = "8:{8B8BFC6B-FD7A-43F5-BAD8-86B4E3B3EA9C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.0.1"
+        "ProductVersion" = "8:0.0.3"
         "Manufacturer" = "8:Mikko Väänänen"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://code.google.com/p/task-recorder/"

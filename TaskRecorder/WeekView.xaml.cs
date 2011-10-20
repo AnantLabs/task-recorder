@@ -83,7 +83,7 @@ namespace TaskRecorder
         {
             get
             {
-                return new CultureInfo("fi-FI").Calendar;
+                return CultureInfo.CurrentCulture.Calendar;
             }
         }
 
@@ -118,6 +118,8 @@ namespace TaskRecorder
             {
                 Week = 52;
             }
+
+            NotifyPropertyChanged("WeekReportRows");
         }
 
         private void SpinWeek(object sender, Microsoft.Windows.Controls.SpinEventArgs e)
@@ -139,8 +141,69 @@ namespace TaskRecorder
             {
                 Week = newWeek;
             }
+
+            NotifyPropertyChanged("WeekReportRows");
         }
 
+        public void ReloadView()
+        {
+            NotifyPropertyChanged("WeekReportRows");
+        }
+
+        public ICollection<WeekReportRow> WeekReportRows
+        {
+            get
+            {
+                try
+                {
+                    IList<Task> tasks = TaskService.Instance.FindByDateRange(WeekStartDate, WeekEndDate);
+                    return AddTotalRow(BuildReportRows(tasks));
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    return new List<WeekReportRow>();
+                }
+            }
+        }
+
+        private ICollection<WeekReportRow> BuildReportRows(IList<Task> tasks)
+        {
+            Dictionary<string, WeekReportRow> map = new Dictionary<string, WeekReportRow>();
+
+            foreach (Task task in tasks)
+            {
+                DayOfWeek day = task.Date.DayOfWeek;
+
+                string key = task.Name + "/" + task.Category;
+                WeekReportRow row;
+
+                if (!map.TryGetValue(key, out row))
+                {
+                    row = new WeekReportRow() { Name = task.Name, Category = task.Category };
+                    map[key] = row;
+                }
+
+                row[day] += task.Time;
+            }
+
+            return map.Values;
+        }
+
+        private ICollection<WeekReportRow> AddTotalRow(ICollection<WeekReportRow> rows)
+        {
+            WeekReportRow totalRow = new WeekReportRow() { Name = "Total" };
+
+            foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
+            {
+                totalRow[day] = rows.Sum(row => row[day]);
+            }
+
+            List<WeekReportRow> result = new List<WeekReportRow>();
+            result.AddRange(rows);
+            result.Add(totalRow);
+            return result;
+        }
 
     }
 }

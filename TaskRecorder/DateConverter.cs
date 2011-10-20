@@ -47,9 +47,13 @@ namespace TaskRecorder
             {
                 return hours + "h";
             }
-            else
+            else if (minutes != 0)
             {
                 return minutes + "m";
+            }
+            else
+            {
+                return "";
             }
         }
 
