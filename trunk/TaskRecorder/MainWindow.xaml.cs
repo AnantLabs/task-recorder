@@ -24,5 +24,16 @@ namespace TaskRecorder
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TabControl tabControl = (TabControl)sender;
+            TabItem tab = (TabItem)tabControl.SelectedItem;
+            if (tab.Header.ToString() == "Week")
+            {
+                WeekView weekView = (WeekView) tab.Content;
+                weekView.ReloadView();
+            }
+        }
     }
 }

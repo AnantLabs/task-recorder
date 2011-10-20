@@ -115,27 +115,46 @@ namespace TaskRecorder
             {
                 con.Open();
 
-                SqlCeCommand cmd = new SqlCeCommand("SELECT Id, Name, Category, Minutes FROM Task WHERE Date=@date", con);
+                SqlCeCommand cmd = new SqlCeCommand("SELECT Id, Name, Category, Minutes, Date FROM Task WHERE Date=@date ORDER BY Date, Category, Name", con);
                 cmd.Parameters.AddWithValue("@date", date);
 
-                IList<Task> result = new List<Task>();
+                return ReadTasks(cmd);
+            }
+        }
 
-                SqlCeDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+        private IList<Task> ReadTasks(SqlCeCommand cmd)
+        {
+            IList<Task> result = new List<Task>();
+
+            SqlCeDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Task task = new Task()
                 {
-                    Task task = new Task()
-                    {
-                        Id = reader.GetString(0).ToString(),
-                        Name = reader.IsDBNull(1) ? null : reader.GetString(1),
-                        Category = reader.IsDBNull(2) ? null : reader.GetString(2),
-                        Time = reader.GetInt32(3),
-                        Date = date
-                    };
+                    Id = reader.GetString(0).ToString(),
+                    Name = reader.IsDBNull(1) ? null : reader.GetString(1),
+                    Category = reader.IsDBNull(2) ? null : reader.GetString(2),
+                    Time = reader.GetInt32(3),
+                    Date = reader.GetDateTime(4)
+                };
 
-                    result.Add(task);
-                }
+                result.Add(task);
+            }
 
-                return result;
+            return result;
+        }
+
+        public IList<Task> FindByDateRange(DateTime begin, DateTime end)
+        {
+            using (SqlCeConnection con = new SqlCeConnection(DBUtils.ConnectionString))
+            {
+                con.Open();
+
+                SqlCeCommand cmd = new SqlCeCommand("SELECT Id, Name, Category, Minutes, Date FROM Task WHERE Date >= @begin AND Date <= @end ORDER BY Date, Category, Name", con);
+                cmd.Parameters.AddWithValue("@begin", begin);
+                cmd.Parameters.AddWithValue("@end", end);
+
+                return ReadTasks(cmd);
             }
         }
 
@@ -147,24 +166,7 @@ namespace TaskRecorder
 
                 SqlCeCommand cmd = new SqlCeCommand("SELECT Id, Name, Category, Minutes, Date FROM Task ORDER BY Date, Category, Name", con);
 
-                IList<Task> result = new List<Task>();
-
-                SqlCeDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    Task task = new Task()
-                    {
-                        Id = reader.GetString(0).ToString(),
-                        Name = reader.IsDBNull(1) ? null : reader.GetString(1),
-                        Category = reader.IsDBNull(2) ? null : reader.GetString(2),
-                        Time = reader.GetInt32(3),
-                        Date = reader.GetDateTime(4)
-                    };
-
-                    result.Add(task);
-                }
-
-                return result;
+                return ReadTasks(cmd);
             }
         }
 

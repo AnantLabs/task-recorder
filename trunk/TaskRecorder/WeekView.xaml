@@ -11,6 +11,7 @@
 
     <Control.Resources>
         <my:DateConverter x:Key="dateConverter"/>
+        <my:MinutesToTimeStringConverter x:Key="minutesToTimeStringConverter"/>
     </Control.Resources>
 
     <Grid>
@@ -39,18 +40,18 @@
             </ToolBar>
         </ToolBarTray>
 
-        <DataGrid Grid.Row="1" Grid.Column="0" Name="weekGrid" AlternatingRowBackground="#FFEBEBEB" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False">
+        <DataGrid Grid.Row="1" Grid.Column="0" Name="weekGrid" ItemsSource="{Binding WeekReportRows}" AlternatingRowBackground="#FFEBEBEB" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="*" Header="Name" />
-                <DataGridTextColumn Width="*" Header="Category" />
-                <DataGridTextColumn Width="Auto" Header="Mon" />
-                <DataGridTextColumn Width="Auto" Header="Tue" />
-                <DataGridTextColumn Width="Auto" Header="Wed" />
-                <DataGridTextColumn Width="Auto" Header="Thu" />
-                <DataGridTextColumn Width="Auto" Header="Fri" />
-                <DataGridTextColumn Width="Auto" Header="Sat" />
-                <DataGridTextColumn Width="Auto" Header="Sun" />
-                <DataGridTextColumn Width="Auto" Header="Total" />
+                <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Width="*" Header="Category" Binding="{Binding Category}" />
+                <DataGridTextColumn Width="Auto" Header="Mon" Binding="{Binding Path=[1], Converter={StaticResource minutesToTimeStringConverter}}" />
+                <DataGridTextColumn Width="Auto" Header="Tue" Binding="{Binding Path=[2], Converter={StaticResource minutesToTimeStringConverter}}" />
+                <DataGridTextColumn Width="Auto" Header="Wed" Binding="{Binding Path=[3], Converter={StaticResource minutesToTimeStringConverter}}" />
+                <DataGridTextColumn Width="Auto" Header="Thu" Binding="{Binding Path=[4], Converter={StaticResource minutesToTimeStringConverter}}" />
+                <DataGridTextColumn Width="Auto" Header="Fri" Binding="{Binding Path=[5], Converter={StaticResource minutesToTimeStringConverter}}" />
+                <DataGridTextColumn Width="Auto" Header="Sat" Binding="{Binding Path=[6], Converter={StaticResource minutesToTimeStringConverter}}" />
+                <DataGridTextColumn Width="Auto" Header="Sun" Binding="{Binding Path=[0], Converter={StaticResource minutesToTimeStringConverter}}" />
+                <DataGridTextColumn Width="Auto" Header="Total" Binding="{Binding Path=Total, Converter={StaticResource minutesToTimeStringConverter}}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

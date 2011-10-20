@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TaskRecorder
 {
@@ -65,6 +67,49 @@ namespace TaskRecorder
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
+    }
+
+
+    public class WeekReportRow
+    {
+        public string Name { get; set; }
+        public string Category { get; set; }
+
+        private Dictionary<DayOfWeek, int> dayValues = new Dictionary<DayOfWeek, int>()
+        {
+            {DayOfWeek.Monday, 0},
+            {DayOfWeek.Tuesday, 0},
+            {DayOfWeek.Wednesday, 0},
+            {DayOfWeek.Thursday, 0},
+            {DayOfWeek.Friday, 0},
+            {DayOfWeek.Saturday, 0},
+            {DayOfWeek.Sunday, 0},
+        };
+
+        public Dictionary<DayOfWeek, int> DayValues
+        {
+            get { return dayValues; }
+        }
+
+        public int this[DayOfWeek key]
+        {
+            get
+            {
+                return dayValues[key];
+            }
+            set
+            {
+                dayValues[key] = value;
+            }
+        }
+
+        public int Total
+        {
+            get
+            {
+                return dayValues.Values.Sum();
             }
         }
     }
