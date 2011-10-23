@@ -35,14 +35,15 @@
                     <TextBox Text="{Binding Week}"/>
                 </extToolkit:ButtonSpinner>
                 <Label Content="{Binding Path=WeekStartDate, Converter={StaticResource dateConverter}}" />
-                <Label Content="-" />
+                <Label Content="-" Padding="0, 5, 0, 5"/>
                 <Label Content="{Binding Path=WeekEndDate, Converter={StaticResource dateConverter}}" />
+                <CheckBox IsChecked="{Binding GroupByCategory}" Margin="5, 0, 0, 0">Group by category</CheckBox>
             </ToolBar>
         </ToolBarTray>
 
         <DataGrid Grid.Row="1" Grid.Column="0" Name="weekGrid" ItemsSource="{Binding WeekReportRows}" AlternatingRowBackground="#FFEBEBEB" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Name}" />
+                <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Name}" x:Name="nameColumn" />
                 <DataGridTextColumn Width="*" Header="Category" Binding="{Binding Category}" />
                 <DataGridTextColumn Width="50" Header="Mon" Binding="{Binding Path=[1], Converter={StaticResource minutesToTimeStringConverter}}" />
                 <DataGridTextColumn Width="50" Header="Tue" Binding="{Binding Path=[2], Converter={StaticResource minutesToTimeStringConverter}}" />
