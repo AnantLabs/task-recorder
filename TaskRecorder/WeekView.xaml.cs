@@ -159,6 +159,21 @@ namespace TaskRecorder
             }
         }
 
+        private bool groupByCategory = false;
+        public bool GroupByCategory
+        {
+            get
+            {
+                return groupByCategory;
+            }
+            set
+            {
+                groupByCategory = value;
+                nameColumn.Visibility = groupByCategory ? Visibility.Hidden : Visibility.Visible;
+                ReloadView();
+            }
+        }
+
         private ICollection<WeekReportRow> BuildReportRows(IList<Task> tasks)
         {
             Dictionary<string, WeekReportRow> map = new Dictionary<string, WeekReportRow>();
@@ -167,12 +182,19 @@ namespace TaskRecorder
             {
                 DayOfWeek day = task.Date.DayOfWeek;
 
-                string key = task.Name + "/" + task.Category;
+                string key = GroupByCategory ? task.Category : task.Name + "/" + task.Category;
                 WeekReportRow row;
 
                 if (!map.TryGetValue(key, out row))
                 {
-                    row = new WeekReportRow() { Name = task.Name, Category = task.Category };
+                    if (GroupByCategory)
+                    {
+                        row = new WeekReportRow() { Category = task.Category };
+                    }
+                    else
+                    {
+                        row = new WeekReportRow() { Name = task.Name, Category = task.Category };
+                    }
                     map[key] = row;
                 }
 
@@ -185,6 +207,10 @@ namespace TaskRecorder
         private ICollection<WeekReportRow> AddTotalRow(ICollection<WeekReportRow> rows)
         {
             WeekReportRow totalRow = new WeekReportRow() { Name = "Total" };
+            if (GroupByCategory)
+            {
+                totalRow.Category = "Total";
+            }
 
             foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
             {

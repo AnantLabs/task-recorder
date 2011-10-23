@@ -60,7 +60,7 @@
         <DataGrid Grid.Row="2" Grid.Column="0" Name="dataGrid1" ItemsSource="{Binding Source={x:Static my:TaskService.Instance}, Path=Tasks}" AlternatingRowBackground="#FFEBEBEB" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" CommandManager.PreviewExecuted="dgData_PreviewExecuted" SelectionMode="Single" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="*" Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Header="Task name" />
-                <DataGridTextColumn Width="*" Binding="{Binding UpdateSourceTrigger=LostFocus, Path=Category, Mode=TwoWay}" Header="Category" />
+                <DataGridTextColumn Width="*" Binding="{Binding Path=Category, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Header="Category" />
                 <DataGridTextColumn x:Name="timeSpentNoSpinnerCol" Width="Auto" Binding="{Binding Path=Time, Mode=TwoWay, UpdateSourceTrigger=LostFocus, Converter={StaticResource minutesToTimeStringConverter}}" Header="Time spent" Visibility="Hidden" />
                 <DataGridTemplateColumn x:Name="timeSpentSpinnerCol" Header="Time spent" CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
