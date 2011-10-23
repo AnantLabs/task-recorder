@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Data.SqlServerCe;
 using System.IO;
 using System.Windows;
-using System.Data.SqlServerCe;
 
 namespace TaskRecorder
 {
@@ -94,8 +91,17 @@ namespace TaskRecorder
             using (SqlCeConnection con = new SqlCeConnection(ConnectionString))
             {
                 con.Open();
-                SqlCeCommand cmd = new SqlCeCommand(Resource.DB_DDL, con);
-                cmd.ExecuteNonQuery();
+                SqlCeCommand cmd = new SqlCeCommand();
+                cmd.Connection = con;
+
+                foreach (string statement in Resource.DB_DDL.Split(';'))
+                {
+                    if (statement.Trim().Length > 0)
+                    {
+                        cmd.CommandText = statement;
+                        cmd.ExecuteNonQuery();
+                    }
+                }
             }
         }
     }

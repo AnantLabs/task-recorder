@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="TaskRecorder.DayView"
+             x:Name="dayView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -37,13 +38,13 @@
                 <Button Click="AddTask_Click" ToolTip="Add new task" Margin="0, 0, 20, 0">
                     <Image Source="Icons/list_add.png"/>
                 </Button>
-                <Button Click="StartTimer_Click" Visibility="{Binding TimerVisibility}" ToolTip="Start timer" IsEnabled="{Binding TimerNotRunning}" Style="{StaticResource DisabledImageStyle}">
+                <Button Click="StartTimer_Click" ToolTip="Start timer" IsEnabled="{Binding TimerNotRunning}" Style="{StaticResource DisabledImageStyle}">
                     <Image Source="Icons/media_playback_start.png"/>
                 </Button>
-                <Button Click="PauseTimer_Click" Visibility="{Binding TimerVisibility}" ToolTip="Pause timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}">
+                <Button Click="PauseTimer_Click" ToolTip="Pause timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}">
                     <Image Source="Icons/media_playback_pause.png"/>
                 </Button>
-                <Button Click="ResetTimer_Click" Visibility="{Binding TimerVisibility}" ToolTip="Reset timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}">
+                <Button Click="ResetTimer_Click" ToolTip="Reset timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}">
                     <Image Source="Icons/media_playback_stop.png"/>
                 </Button>
                 <extToolkit:ButtonSpinner Spin="DateSpinner_Spin" FlowDirection="RightToLeft" Margin="20,0,20,0" Height="25">
@@ -60,11 +61,12 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Width="*" Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Header="Task name" />
                 <DataGridTextColumn Width="*" Binding="{Binding UpdateSourceTrigger=LostFocus, Path=Category, Mode=TwoWay}" Header="Category" />
-                <DataGridTemplateColumn Header="Time spent" IsReadOnly="True" CanUserResize="False">
+                <DataGridTextColumn x:Name="timeSpentNoSpinnerCol" Width="Auto" Binding="{Binding Path=Time, Mode=TwoWay, UpdateSourceTrigger=LostFocus, Converter={StaticResource minutesToTimeStringConverter}}" Header="Time spent" Visibility="Hidden" />
+                <DataGridTemplateColumn x:Name="timeSpentSpinnerCol" Header="Time spent" CanUserResize="False">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <extToolkit:ButtonSpinner BorderThickness="0" Spin="TimeSpinner_Spin">
-                                <Label Content="{Binding Path=Time, Converter={StaticResource minutesToTimeStringConverter}}" />
+                                <TextBox Text="{Binding Path=Time, Mode=TwoWay, UpdateSourceTrigger=LostFocus, Converter={StaticResource minutesToTimeStringConverter}}" BorderThickness="0" />
                             </extToolkit:ButtonSpinner>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -73,8 +75,8 @@
         </DataGrid>
 
         <StackPanel Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" Width="Auto" Orientation="Horizontal" >
-            <Label Content="Unassigned time:" Visibility="{Binding TimerVisibility}"/>
-            <Label Content="{Binding Path=UnAssignedMinutes, Converter={StaticResource minutesToTimeStringConverter}}" Visibility="{Binding TimerVisibility}"/>
+            <Label Content="Unassigned time today:" />
+            <Label Content="{Binding Path=UnAssignedMinutes, Converter={StaticResource minutesToTimeStringConverter}}" />
         </StackPanel>
         <StackPanel Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Width="Auto" Orientation="Horizontal" >
             <Label Content="Total:" />

@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.ComponentModel;
-using System.Collections.ObjectModel;
 using System.Data.SqlServerCe;
-using System.Windows;
 using System.IO;
+using System.Windows;
 
 namespace TaskRecorder
 {
+    public delegate void TasksChanged();
+
     public class TaskService : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         private static readonly TaskService instance = new TaskService();
+
+        public event TasksChanged TasksChanged;
 
         private TaskService()
         {
@@ -56,6 +57,15 @@ namespace TaskRecorder
                     task.Date = CurrentDate;
                 }
                 InsertOrUpdate(task);
+            }
+            NotifyTasksChanged();
+        }
+
+        private void NotifyTasksChanged()
+        {
+            if (TasksChanged != null)
+            {
+                TasksChanged();
             }
         }
 

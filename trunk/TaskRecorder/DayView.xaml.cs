@@ -1,19 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using Microsoft.Win32;
 
 namespace TaskRecorder
@@ -32,6 +22,13 @@ namespace TaskRecorder
             InitializeComponent();
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, intervalMinutes, 0);
+
+            TaskService.Instance.TasksChanged += new TasksChanged(TaskServiceTasksChanged);
+        }
+
+        void TaskServiceTasksChanged()
+        {
+            NotifyPropertyChanged("TotalTime");
         }
 
         public bool NotifyOn { get; set; }
@@ -126,15 +123,26 @@ namespace TaskRecorder
             int days = e.Direction == Microsoft.Windows.Controls.SpinDirection.Increase ? 1 : -1;
             TaskService.Instance.CurrentDate = TaskService.Instance.CurrentDate.AddDays(days);
 
-            NotifyPropertyChanged("TimerVisibility");
+            NotifyPropertyChanged("VisibleIfToday");
             NotifyPropertyChanged("TotalTime");
+
+            timeSpentSpinnerCol.Visibility = VisibleIfToday;
+            timeSpentNoSpinnerCol.Visibility = NotVisibleIfToday;
         }
 
-        public Visibility TimerVisibility
+        public Visibility VisibleIfToday
         {
             get
             {
                 return TaskService.Instance.CurrentDate == DateTime.Now.Date ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
+        public Visibility NotVisibleIfToday
+        {
+            get
+            {
+                return TaskService.Instance.CurrentDate != DateTime.Now.Date ? Visibility.Visible : Visibility.Hidden;
             }
         }
 
@@ -182,8 +190,6 @@ namespace TaskRecorder
                     }
                 }
             }
-
-            NotifyPropertyChanged("TotalTime");
         }
 
         private void dgData_PreviewExecuted(object sender, ExecutedRoutedEventArgs e)
