@@ -77,7 +77,9 @@ namespace TaskRecorder {
         ///	Minutes int NOT NULL DEFAULT 0,
         ///	Date datetime NOT NULL,
         ///	CONSTRAINT PK_Task PRIMARY KEY (Id)
-        ///).
+        ///);
+        ///
+        ///CREATE INDEX IDX_Task_Date ON Task (Date);.
         /// </summary>
         internal static string DB_DDL {
             get {

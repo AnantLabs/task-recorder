@@ -88,13 +88,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_597C8D6403F35727A30E990F80CFDBA2"
+        "OwnerKey" = "8:_56C5B70D8A7C6D1ACA6BFCB986B65A9F"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_56C5B70D8A7C6D1ACA6BFCB986B65A9F"
+        "OwnerKey" = "8:_597C8D6403F35727A30E990F80CFDBA2"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -470,15 +470,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Task Recorder"
-        "ProductCode" = "8:{3E3D3732-A87A-4686-9C8E-25D88D290162}"
-        "PackageCode" = "8:{D7F43703-AFBD-4EE1-8A4D-1CCCB08BA84B}"
+        "ProductCode" = "8:{E1E37776-A9E6-4CB2-9760-80B138F59503}"
+        "PackageCode" = "8:{8B6588BB-B089-4724-A785-200A20F635BB}"
         "UpgradeCode" = "8:{8B8BFC6B-FD7A-43F5-BAD8-86B4E3B3EA9C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.0.3"
+        "ProductVersion" = "8:0.0.4"
         "Manufacturer" = "8:Mikko Väänänen"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://code.google.com/p/task-recorder/"

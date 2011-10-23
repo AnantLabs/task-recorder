@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Data;
-using System.Globalization;
 
 namespace TaskRecorder
 {
@@ -37,7 +35,7 @@ namespace TaskRecorder
             Int32 number = (Int32)value;
             int hours = number / 60;
             double remainderHours = number / 60.0 - hours;
-            int minutes = (int) Math.Round(remainderHours * 60);
+            int minutes = (int)Math.Round(remainderHours * 60);
 
             if (hours != 0 && minutes != 0)
             {
@@ -59,7 +57,34 @@ namespace TaskRecorder
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return DependencyProperty.UnsetValue;
+            string text = (string)value;
+
+            string regexHours = "(?<hours>[0-9]+)\\s*h";
+            string regexMins = "(?<minutes>[0-9]+)\\s*m";
+            string pattern = "^\\s*(" + regexHours + ")?\\s*(" + regexMins + ")?\\s*$";
+
+            Match match = Regex.Match(text, pattern);
+            if (match.Success)
+            {
+                string hoursText = match.Groups["hours"].Value;
+                string minutesText = match.Groups["minutes"].Value;
+
+                int hours = hoursText != string.Empty ? int.Parse(hoursText) : 0;
+                int minutes = minutesText != string.Empty ? int.Parse(minutesText) : 0;
+
+                if (hours > 0 || minutes > 0)
+                {
+                    return hours * 60 + minutes;
+                }
+                else
+                {
+                    return value;
+                }
+            }
+            else
+            {
+                return value;
+            }
         }
     }
 }

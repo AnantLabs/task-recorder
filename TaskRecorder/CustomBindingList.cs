@@ -1,7 +1,5 @@
-﻿using System.ComponentModel;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System;
+﻿using System;
+using System.ComponentModel;
 
 namespace TaskRecorder
 {
