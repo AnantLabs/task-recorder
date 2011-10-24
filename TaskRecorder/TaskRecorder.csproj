@@ -110,6 +110,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="TaskDAO.cs" />
+    <Compile Include="TaskDAOImpl.cs" />
     <Compile Include="TaskService.cs" />
     <Compile Include="WeekView.xaml.cs">
       <DependentUpon>WeekView.xaml</DependentUpon>
