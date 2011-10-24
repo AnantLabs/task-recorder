@@ -5,8 +5,15 @@ using System.Windows;
 
 namespace TaskRecorder
 {
-    class DBUtils
+    public class DBUtils
     {
+
+        private static string dbFileName = "DB.sdf";
+        public static string DBFileName
+        {
+            get { return dbFileName; }
+            set { dbFileName = value; }
+        }
 
         public static string DBFilePath
         {
@@ -17,7 +24,7 @@ namespace TaskRecorder
                 {
                     Directory.CreateDirectory(appFolder);
                 }
-                return Path.Combine(appFolder, "DB.sdf");
+                return Path.Combine(appFolder, dbFileName);
             }
         }
 
@@ -91,15 +98,17 @@ namespace TaskRecorder
             using (SqlCeConnection con = new SqlCeConnection(ConnectionString))
             {
                 con.Open();
-                SqlCeCommand cmd = new SqlCeCommand();
-                cmd.Connection = con;
-
-                foreach (string statement in Resource.DB_DDL.Split(';'))
+                using (SqlCeCommand cmd = new SqlCeCommand())
                 {
-                    if (statement.Trim().Length > 0)
+                    cmd.Connection = con;
+
+                    foreach (string statement in Resource.DB_DDL.Split(';'))
                     {
-                        cmd.CommandText = statement;
-                        cmd.ExecuteNonQuery();
+                        if (statement.Trim().Length > 0)
+                        {
+                            cmd.CommandText = statement;
+                            cmd.ExecuteNonQuery();
+                        }
                     }
                 }
             }
