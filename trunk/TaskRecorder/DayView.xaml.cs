@@ -23,12 +23,15 @@ namespace TaskRecorder
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, intervalMinutes, 0);
 
-            TaskService.Instance.TasksChanged += new TasksChangedEventHandler(TaskServiceTasksChanged);
+            TaskService.Instance.PropertyChanged += new PropertyChangedEventHandler(TaskService_PropertyChanged);
         }
 
-        void TaskServiceTasksChanged()
+        void TaskService_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            NotifyPropertyChanged("TotalTime");
+            if (e.PropertyName == "Tasks")
+            {
+                NotifyPropertyChanged("TotalTime");
+            }
         }
 
         public bool NotifyOn { get; set; }
@@ -124,7 +127,7 @@ namespace TaskRecorder
             TaskService.Instance.CurrentDate = TaskService.Instance.CurrentDate.AddDays(days);
 
             NotifyPropertyChanged("VisibleIfToday");
-            NotifyPropertyChanged("TotalTime");
+            //NotifyPropertyChanged("TotalTime");
 
             timeSpentSpinnerCol.Visibility = VisibleIfToday;
             timeSpentNoSpinnerCol.Visibility = NotVisibleIfToday;
