@@ -23,7 +23,7 @@ namespace TaskRecorder
             dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
             dispatcherTimer.Interval = new TimeSpan(0, intervalMinutes, 0);
 
-            TaskService.Instance.TasksChanged += new TasksChanged(TaskServiceTasksChanged);
+            TaskService.Instance.TasksChanged += new TasksChangedEventHandler(TaskServiceTasksChanged);
         }
 
         void TaskServiceTasksChanged()

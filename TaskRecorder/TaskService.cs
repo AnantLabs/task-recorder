@@ -7,14 +7,14 @@ using System.Windows;
 
 namespace TaskRecorder
 {
-    public delegate void TasksChanged();
+    public delegate void TasksChangedEventHandler();
 
     public class TaskService : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        private static readonly TaskService instance = new TaskService();
+        public event TasksChangedEventHandler TasksChanged;
 
-        public event TasksChanged TasksChanged;
+        private static readonly TaskService instance = new TaskService();
 
         private TaskService()
         {
@@ -69,18 +69,18 @@ namespace TaskRecorder
             }
         }
 
+        private void NotifyPropertyChanged(string property)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
+        }
+
         private CustomBindingList<Task> tasks = new CustomBindingList<Task>();
         public CustomBindingList<Task> Tasks
         {
             get { return tasks; }
-            set
-            {
-                tasks = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("Tasks"));
-                }
-            }
         }
 
         private DateTime currentDate = DateTime.Now.Date;
@@ -90,10 +90,7 @@ namespace TaskRecorder
             set
             {
                 currentDate = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged(this, new PropertyChangedEventArgs("CurrentDate"));
-                }
+                NotifyPropertyChanged("CurrentDate");
 
                 SetTasksByDate();
             }
@@ -110,8 +107,9 @@ namespace TaskRecorder
                 }
 
                 DetachEventHandlers();
-                Tasks = newTasks;
+                tasks = newTasks;
                 AttachEventHandlers();
+                NotifyPropertyChanged("Tasks");
             }
             catch (Exception ex)
             {
@@ -125,10 +123,12 @@ namespace TaskRecorder
             {
                 con.Open();
 
-                SqlCeCommand cmd = new SqlCeCommand("SELECT Id, Name, Category, Minutes, Date FROM Task WHERE Date=@date ORDER BY Date, Category, Name", con);
-                cmd.Parameters.AddWithValue("@date", date);
+                using (SqlCeCommand cmd = new SqlCeCommand("SELECT Id, Name, Category, Minutes, Date FROM Task WHERE Date=@date ORDER BY Date, Category, Name", con))
+                {
+                    cmd.Parameters.AddWithValue("@date", date);
 
-                return ReadTasks(cmd);
+                    return ReadTasks(cmd);
+                }
             }
         }
 
@@ -160,11 +160,13 @@ namespace TaskRecorder
             {
                 con.Open();
 
-                SqlCeCommand cmd = new SqlCeCommand("SELECT Id, Name, Category, Minutes, Date FROM Task WHERE Date >= @begin AND Date <= @end ORDER BY Date, Category, Name", con);
-                cmd.Parameters.AddWithValue("@begin", begin);
-                cmd.Parameters.AddWithValue("@end", end);
+                using (SqlCeCommand cmd = new SqlCeCommand("SELECT Id, Name, Category, Minutes, Date FROM Task WHERE Date >= @begin AND Date <= @end ORDER BY Date, Category, Name", con))
+                {
+                    cmd.Parameters.AddWithValue("@begin", begin);
+                    cmd.Parameters.AddWithValue("@end", end);
 
-                return ReadTasks(cmd);
+                    return ReadTasks(cmd);
+                }
             }
         }
 
@@ -174,9 +176,10 @@ namespace TaskRecorder
             {
                 con.Open();
 
-                SqlCeCommand cmd = new SqlCeCommand("SELECT Id, Name, Category, Minutes, Date FROM Task ORDER BY Date, Category, Name", con);
-
-                return ReadTasks(cmd);
+                using (SqlCeCommand cmd = new SqlCeCommand("SELECT Id, Name, Category, Minutes, Date FROM Task ORDER BY Date, Category, Name", con))
+                {
+                    return ReadTasks(cmd);
+                }
             }
         }
 
@@ -186,33 +189,41 @@ namespace TaskRecorder
             {
                 con.Open();
 
-                SqlCeCommand cmd = null;
-
-                if (task.Id != null)
+                using (SqlCeCommand cmd = CreateInsertOrUpdateCommand(task, con))
                 {
-                    cmd = new SqlCeCommand("UPDATE Task SET Name=@name, Category=@category, Minutes=@minutes, Date=@date WHERE Id=@id", con);
-                }
-                else
-                {
-                    cmd = new SqlCeCommand("INSERT INTO Task(Id, Name, Category, Minutes, Date) VALUES (@id, @name, @category, @minutes, @date)", con);
-                    task.Id = Guid.NewGuid().ToString();
-                }
-
-                cmd.Parameters.AddWithValue("@id", task.Id);
-                cmd.Parameters.AddWithValue("@name", task.Name);
-                cmd.Parameters.AddWithValue("@category", task.Category);
-                cmd.Parameters.AddWithValue("@minutes", task.Time);
-                cmd.Parameters.AddWithValue("@date", task.Date);
-
-                foreach (SqlCeParameter param in cmd.Parameters)
-                {
-                    if (param.Value == null)
+                    if (task.Id == null)
                     {
-                        param.Value = DBNull.Value;
+                        task.Id = Guid.NewGuid().ToString();
                     }
-                }
 
-                cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@id", task.Id);
+                    cmd.Parameters.AddWithValue("@name", task.Name);
+                    cmd.Parameters.AddWithValue("@category", task.Category);
+                    cmd.Parameters.AddWithValue("@minutes", task.Time);
+                    cmd.Parameters.AddWithValue("@date", task.Date);
+
+                    foreach (SqlCeParameter param in cmd.Parameters)
+                    {
+                        if (param.Value == null)
+                        {
+                            param.Value = DBNull.Value;
+                        }
+                    }
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private SqlCeCommand CreateInsertOrUpdateCommand(Task task, SqlCeConnection con)
+        {
+            if (task.Id != null)
+            {
+                return new SqlCeCommand("UPDATE Task SET Name=@name, Category=@category, Minutes=@minutes, Date=@date WHERE Id=@id", con);
+            }
+            else
+            {
+                return new SqlCeCommand("INSERT INTO Task(Id, Name, Category, Minutes, Date) VALUES (@id, @name, @category, @minutes, @date)", con);
             }
         }
 
@@ -224,9 +235,11 @@ namespace TaskRecorder
 
                 if (task.Id != null)
                 {
-                    SqlCeCommand cmd = new SqlCeCommand("DELETE Task WHERE Id=@id", con);
-                    cmd.Parameters.AddWithValue("@id", task.Id);
-                    cmd.ExecuteNonQuery();
+                    using (SqlCeCommand cmd = new SqlCeCommand("DELETE Task WHERE Id=@id", con))
+                    {
+                        cmd.Parameters.AddWithValue("@id", task.Id);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
         }

@@ -69,8 +69,8 @@ namespace TaskRecorder
                 string hoursText = match.Groups["hours"].Value;
                 string minutesText = match.Groups["minutes"].Value;
 
-                int hours = hoursText != string.Empty ? int.Parse(hoursText) : 0;
-                int minutes = minutesText != string.Empty ? int.Parse(minutesText) : 0;
+                int hours = string.IsNullOrEmpty(hoursText) ? 0 : int.Parse(hoursText);
+                int minutes = string.IsNullOrEmpty(minutesText) ? 0 : int.Parse(minutesText);
 
                 if (hours > 0 || minutes > 0)
                 {

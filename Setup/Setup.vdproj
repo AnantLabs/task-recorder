@@ -75,6 +75,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C38D4E6B45273A931CA96746FE05DC70"
+        "OwnerKey" = "8:_2D8E2C25CE8B45EFBA16609FF77E4758"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D5940640E7FA4CC5ADFC0D700139D4F5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -88,13 +94,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_56C5B70D8A7C6D1ACA6BFCB986B65A9F"
+        "OwnerKey" = "8:_597C8D6403F35727A30E990F80CFDBA2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_597C8D6403F35727A30E990F80CFDBA2"
+        "OwnerKey" = "8:_C38D4E6B45273A931CA96746FE05DC70"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_56C5B70D8A7C6D1ACA6BFCB986B65A9F"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -309,6 +321,11 @@
             "AssemblyAsmDisplayName" = "8:System.Data.SqlServerCe, Version=3.5.1.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_56C5B70D8A7C6D1ACA6BFCB986B65A9F"
+                    {
+                    "Name" = "8:System.Data.SqlServerCe.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:System.Data.SqlServerCe.dll"
             "TargetName" = "8:"
@@ -355,6 +372,11 @@
             "AssemblyAsmDisplayName" = "8:WPFToolkit.Extended, Version=1.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
+                    "_597C8D6403F35727A30E990F80CFDBA2"
+                    {
+                    "Name" = "8:WPFToolkit.Extended.dll"
+                    "Attributes" = "3:512"
+                    }
                 }
             "SourcePath" = "8:WPFToolkit.Extended.dll"
             "TargetName" = "8:"
@@ -392,6 +414,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C38D4E6B45273A931CA96746FE05DC70"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Itenso.TimePeriod, Version=1.4.4.0, Culture=neutral, PublicKeyToken=d7f23b760ed5c748, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_C38D4E6B45273A931CA96746FE05DC70"
+                    {
+                    "Name" = "8:Itenso.TimePeriod.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Itenso.TimePeriod.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_AF0C2E557D764DDE9285C29A44A2B1D8"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D5940640E7FA4CC5ADFC0D700139D4F5"
@@ -470,15 +523,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Task Recorder"
-        "ProductCode" = "8:{E1E37776-A9E6-4CB2-9760-80B138F59503}"
-        "PackageCode" = "8:{8B6588BB-B089-4724-A785-200A20F635BB}"
+        "ProductCode" = "8:{84EC01DD-A940-4EA7-8604-B83CC99D669E}"
+        "PackageCode" = "8:{F3432DB9-15CD-4E33-A54B-4ED6DBCEECCD}"
         "UpgradeCode" = "8:{8B8BFC6B-FD7A-43F5-BAD8-86B4E3B3EA9C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.0.4"
+        "ProductVersion" = "8:0.0.5"
         "Manufacturer" = "8:Mikko Väänänen"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://code.google.com/p/task-recorder/"
