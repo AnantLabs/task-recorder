@@ -16,7 +16,7 @@
         <Style TargetType="{x:Type Button}" x:Key="DisabledImageStyle">
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Opacity" Value="0.30"/>
+                    <Setter Property="Opacity" Value="0.40"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -33,30 +33,23 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <ToolBarTray Grid.Row="1" Grid.Column="0">
-            <ToolBar Band="1" BandIndex="1">
-                <Button Click="AddTask_Click" ToolTip="Add new task" Margin="0, 0, 20, 0">
-                    <Image Source="Icons/list_add.png"/>
-                </Button>
-                <Button Click="StartTimer_Click" ToolTip="Start timer" IsEnabled="{Binding TimerNotRunning}" Style="{StaticResource DisabledImageStyle}">
-                    <Image Source="Icons/media_playback_start.png"/>
-                </Button>
-                <Button Click="PauseTimer_Click" ToolTip="Pause timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}">
-                    <Image Source="Icons/media_playback_pause.png"/>
-                </Button>
-                <Button Click="ResetTimer_Click" ToolTip="Reset timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}">
-                    <Image Source="Icons/media_playback_stop.png"/>
-                </Button>
-                <extToolkit:ButtonSpinner Spin="DateSpinner_Spin" FlowDirection="RightToLeft" Margin="20,0,20,0" Height="25">
-                    <DatePicker BorderThickness="0" SelectedDate="{Binding Source={x:Static my:TaskService.Instance}, Path=CurrentDate}" FlowDirection="LeftToRight" />
-                </extToolkit:ButtonSpinner>
-                <CheckBox Content="Notify" ToolTip="Flash task bar icon after timer period" IsChecked="{Binding NotifyOn}"/>
-                <Button Click="Export_Click" ToolTip="Export to spreadsheet">
-                    <Image Source="Icons/x_office_spreadsheet.png"/>
-                </Button>
-            </ToolBar>
-        </ToolBarTray>
-
+        <StackPanel Grid.Row="1" Grid.Column="0" Width="Auto" Orientation="Horizontal" >
+            <Button Click="AddTask_Click" ToolTip="Add new task" Margin="0, 0, 5, 5">
+                <Image Source="Icons/list_add.png"/>
+            </Button>
+            <Button Click="StartTimer_Click" ToolTip="Start timer" Margin="0, 0, 0, 5" IsEnabled="{Binding TimerNotRunning}" Style="{StaticResource DisabledImageStyle}">
+                <Image Source="Icons/media_playback_start.png"/>
+            </Button>
+            <Button Click="PauseTimer_Click" ToolTip="Pause timer" Margin="0, 0, 0, 5" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}">
+                <Image Source="Icons/media_playback_pause.png"/>
+            </Button>
+            <Button Click="ResetTimer_Click" ToolTip="Reset timer" Margin="0, 0, 0, 5" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}">
+                <Image Source="Icons/media_playback_stop.png"/>
+            </Button>
+            <extToolkit:ButtonSpinner Spin="DateSpinner_Spin" FlowDirection="RightToLeft" Margin="20,0,20,0" Height="25">
+                <DatePicker BorderThickness="0" SelectedDate="{Binding Source={x:Static my:TaskService.Instance}, Path=CurrentDate}" FlowDirection="LeftToRight" />
+            </extToolkit:ButtonSpinner>
+        </StackPanel>
         <DataGrid Grid.Row="2" Grid.Column="0" Name="dataGrid1" ItemsSource="{Binding Source={x:Static my:TaskService.Instance}, Path=Tasks}" AlternatingRowBackground="#FFEBEBEB" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" CommandManager.PreviewExecuted="dgData_PreviewExecuted" SelectionMode="Single" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="*" Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Header="Task name" />
@@ -78,7 +71,7 @@
             <Label Content="Unassigned time today:" />
             <Label Content="{Binding Path=UnAssignedMinutes, Converter={StaticResource minutesToTimeStringConverter}}" />
         </StackPanel>
-        <StackPanel Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" Width="Auto" Orientation="Horizontal" >
+        <StackPanel Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" Width="Auto" Orientation="Horizontal" >
             <Label Content="Total:" />
             <Label Content="{Binding Path=TotalTime, Converter={StaticResource minutesToTimeStringConverter}}" />
         </StackPanel>

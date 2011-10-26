@@ -113,4 +113,16 @@ namespace TaskRecorder
             }
         }
     }
+
+    public class Settings
+    {
+        private static readonly Settings instance = new Settings() { NotifyOn = true };
+
+        private Settings() { }
+
+        public static Settings Instance { get { return instance; } }
+
+        public bool NotifyOn { get; set; }
+
+    }
 }

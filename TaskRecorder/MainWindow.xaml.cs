@@ -1,19 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using Microsoft.Win32;
 
 namespace TaskRecorder
@@ -31,9 +19,49 @@ namespace TaskRecorder
             TabItem tab = (TabItem)tabControl.SelectedItem;
             if (tab.Header.ToString() == "Week")
             {
-                WeekView weekView = (WeekView) tab.Content;
+                WeekView weekView = (WeekView)tab.Content;
                 weekView.ReloadView();
             }
+        }
+
+        private void Export_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.FileName = "export";
+            dlg.DefaultExt = ".csv";
+            dlg.Filter = "Text files (.csv)|*.csv";
+
+            Nullable<bool> result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+                try
+                {
+                    TaskService.Instance.ExportCSV(filename);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            System.Environment.Exit(0);
+        }
+
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            MessageBox.Show(Resource.AboutText, Resource.ApplicationName + " " + version.ToString(), MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+            e.Cancel = true;
         }
     }
 }

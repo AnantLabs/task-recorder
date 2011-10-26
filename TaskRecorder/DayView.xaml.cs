@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Microsoft.Win32;
 
 namespace TaskRecorder
 {
@@ -34,12 +33,10 @@ namespace TaskRecorder
             }
         }
 
-        public bool NotifyOn { get; set; }
-
         void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             UnAssignedMinutes += intervalMinutes;
-            if (NotifyOn)
+            if (Settings.Instance.NotifyOn)
             {
                 Notify();
             }
@@ -127,7 +124,6 @@ namespace TaskRecorder
             TaskService.Instance.CurrentDate = TaskService.Instance.CurrentDate.AddDays(days);
 
             NotifyPropertyChanged("VisibleIfToday");
-            //NotifyPropertyChanged("TotalTime");
 
             timeSpentSpinnerCol.Visibility = VisibleIfToday;
             timeSpentNoSpinnerCol.Visibility = NotVisibleIfToday;
@@ -209,27 +205,5 @@ namespace TaskRecorder
             }
         }
 
-        private void Export_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.FileName = "export";
-            dlg.DefaultExt = ".csv";
-            dlg.Filter = "Text files (.csv)|*.csv";
-
-            Nullable<bool> result = dlg.ShowDialog();
-
-            if (result == true)
-            {
-                string filename = dlg.FileName;
-                try
-                {
-                    TaskService.Instance.ExportCSV(filename);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            }
-        }
     }
 }

@@ -61,11 +61,30 @@ namespace TaskRecorder {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copyright © Mikko Väänänen 2011
+        ///http://code.google.com/p/task-recorder/.
+        /// </summary>
+        internal static string AboutText {
+            get {
+                return ResourceManager.GetString("AboutText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TaskRecorder.
         /// </summary>
         internal static string APP_DATA_PATH {
             get {
                 return ResourceManager.GetString("APP_DATA_PATH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Task Recorder.
+        /// </summary>
+        internal static string ApplicationName {
+            get {
+                return ResourceManager.GetString("ApplicationName", resourceCulture);
             }
         }
         
