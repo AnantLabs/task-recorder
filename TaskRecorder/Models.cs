@@ -9,6 +9,8 @@ namespace TaskRecorder
     {
         public string Id { get; set; }
 
+        public string TemplateRef { get; set; }
+
         private DateTime date = DateTime.Now.Date;
         public DateTime Date
         {
@@ -57,6 +59,43 @@ namespace TaskRecorder
             get
             {
                 return DateTime.Now.Date == Date;
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+            }
+        }
+    }
+
+    public class TaskTemplate : INotifyPropertyChanged
+    {
+        public string Id { get; set; }
+
+        private string name;
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                NotifyPropertyChanged("Name");
+            }
+        }
+
+        private string category;
+        public string Category
+        {
+            get { return category != null ? category : ""; }
+            set
+            {
+                category = value;
+                NotifyPropertyChanged("Category");
             }
         }
 

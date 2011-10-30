@@ -50,7 +50,7 @@
                 <DatePicker BorderThickness="0" SelectedDate="{Binding Source={x:Static my:TaskService.Instance}, Path=CurrentDate}" FlowDirection="LeftToRight" />
             </extToolkit:ButtonSpinner>
         </StackPanel>
-        <DataGrid Grid.Row="2" Grid.Column="0" Name="dataGrid1" ItemsSource="{Binding Source={x:Static my:TaskService.Instance}, Path=Tasks}" AlternatingRowBackground="#FFEBEBEB" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" CommandManager.PreviewExecuted="dgData_PreviewExecuted" SelectionMode="Single" CanUserAddRows="False">
+        <DataGrid Grid.Row="2" Grid.Column="0" Name="dayGrid" ItemsSource="{Binding Source={x:Static my:TaskService.Instance}, Path=Tasks}" AlternatingRowBackground="#FFEBEBEB" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" CommandManager.PreviewExecuted="dgData_PreviewExecuted" SelectionMode="Single" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="*" Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Header="Task name" />
                 <DataGridTextColumn Width="*" Binding="{Binding Path=Category, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Header="Category" />

@@ -12,7 +12,7 @@ namespace TaskRecorder
             {
                 con.Open();
 
-                using (SqlCeCommand cmd = new SqlCeCommand("SELECT Id, Name, Category, Minutes, Date FROM Task ORDER BY Date, Category, Name", con))
+                using (SqlCeCommand cmd = new SqlCeCommand("SELECT Id, TemplateRef, Name, Category, Minutes, Date FROM Task ORDER BY Date, Category, Name", con))
                 {
                     return ReadTasks(cmd);
                 }
@@ -29,10 +29,11 @@ namespace TaskRecorder
                 Task task = new Task()
                 {
                     Id = reader.GetString(0).ToString(),
-                    Name = reader.IsDBNull(1) ? null : reader.GetString(1),
-                    Category = reader.IsDBNull(2) ? null : reader.GetString(2),
-                    Time = reader.GetInt32(3),
-                    Date = reader.GetDateTime(4)
+                    TemplateRef = reader.IsDBNull(1) ? null : reader.GetString(1).ToString(),
+                    Name = reader.IsDBNull(2) ? null : reader.GetString(2),
+                    Category = reader.IsDBNull(3) ? null : reader.GetString(3),
+                    Time = reader.GetInt32(4),
+                    Date = reader.GetDateTime(5)
                 };
 
                 result.Add(task);
@@ -47,7 +48,7 @@ namespace TaskRecorder
             {
                 con.Open();
 
-                using (SqlCeCommand cmd = new SqlCeCommand("SELECT Id, Name, Category, Minutes, Date FROM Task WHERE Date >= @begin AND Date <= @end ORDER BY Date, Category, Name", con))
+                using (SqlCeCommand cmd = new SqlCeCommand("SELECT Id, TemplateRef, Name, Category, Minutes, Date FROM Task WHERE Date >= @begin AND Date <= @end ORDER BY Date, Category, Name", con))
                 {
                     cmd.Parameters.AddWithValue("@begin", begin);
                     cmd.Parameters.AddWithValue("@end", end);
@@ -63,7 +64,7 @@ namespace TaskRecorder
             {
                 con.Open();
 
-                using (SqlCeCommand cmd = new SqlCeCommand("SELECT Id, Name, Category, Minutes, Date FROM Task WHERE Date=@date ORDER BY Date, Category, Name", con))
+                using (SqlCeCommand cmd = new SqlCeCommand("SELECT Id, TemplateRef, Name, Category, Minutes, Date FROM Task WHERE Date=@date ORDER BY Date, Category, Name", con))
                 {
                     cmd.Parameters.AddWithValue("@date", date);
 
@@ -103,6 +104,7 @@ namespace TaskRecorder
                     }
 
                     cmd.Parameters.AddWithValue("@id", task.Id);
+                    cmd.Parameters.AddWithValue("@template", task.TemplateRef);
                     cmd.Parameters.AddWithValue("@name", task.Name);
                     cmd.Parameters.AddWithValue("@category", task.Category);
                     cmd.Parameters.AddWithValue("@minutes", task.Time);
@@ -125,11 +127,11 @@ namespace TaskRecorder
         {
             if (task.Id != null)
             {
-                return new SqlCeCommand("UPDATE Task SET Name=@name, Category=@category, Minutes=@minutes, Date=@date WHERE Id=@id", con);
+                return new SqlCeCommand("UPDATE Task SET Name=@name, TemplateRef=@template, Category=@category, Minutes=@minutes, Date=@date WHERE Id=@id", con);
             }
             else
             {
-                return new SqlCeCommand("INSERT INTO Task(Id, Name, Category, Minutes, Date) VALUES (@id, @name, @category, @minutes, @date)", con);
+                return new SqlCeCommand("INSERT INTO Task(Id, TemplateRef, Name, Category, Minutes, Date) VALUES (@id, @template, @name, @category, @minutes, @date)", con);
             }
         }
     }

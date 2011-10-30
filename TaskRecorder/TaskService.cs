@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using System.Linq;
 
 namespace TaskRecorder
 {
@@ -10,7 +12,8 @@ namespace TaskRecorder
     {
         private static readonly TaskService instance = new TaskService();
         public event PropertyChangedEventHandler PropertyChanged;
-        private readonly TaskDAO dao = new TaskDAOImpl();
+        private readonly TaskDAO taskDao = new TaskDAOImpl();
+        private readonly TaskTemplateDAO templateDao = new TaskTemplateDAOImpl();
 
         private TaskService()
         {
@@ -23,7 +26,8 @@ namespace TaskRecorder
 
         private void CheckDBContents()
         {
-            dao.FindByDate(DateTime.Now.Date);
+            taskDao.FindByDate(DateTime.Now.Date);
+            templateDao.FindAll();
         }
 
         private void AttachEventHandlers()
@@ -40,7 +44,7 @@ namespace TaskRecorder
 
         void tasks_ItemDeleting(object sender, Task item)
         {
-            dao.Delete(item);
+            taskDao.Delete(item);
         }
 
         void tasks_ListChanged(object sender, ListChangedEventArgs e)
@@ -52,7 +56,7 @@ namespace TaskRecorder
                 {
                     task.Date = CurrentDate;
                 }
-                dao.InsertOrUpdate(task);
+                taskDao.InsertOrUpdate(task);
             }
 
             NotifyPropertyChanged("Tasks");
@@ -72,6 +76,11 @@ namespace TaskRecorder
             get { return tasks; }
         }
 
+        public void Reload()
+        {
+            SetTasksByDate();
+        }
+
         private DateTime currentDate = DateTime.Now.Date;
         public DateTime CurrentDate
         {
@@ -89,9 +98,18 @@ namespace TaskRecorder
             try
             {
                 CustomBindingList<Task> newTasks = new CustomBindingList<Task>();
-                foreach (Task task in dao.FindByDate(currentDate))
+                foreach (Task task in taskDao.FindByDate(currentDate))
                 {
                     newTasks.Add(task);
+                }
+
+                foreach (TaskTemplate template in templateDao.FindAll())
+                {
+                    bool found = newTasks.Any(task => task.TemplateRef == template.Id);
+                    if (!found)
+                    {
+                        newTasks.Insert(0, new Task() { Name = template.Name, Category = template.Category, TemplateRef=template.Id });
+                    }
                 }
 
                 DetachEventHandlers();
@@ -107,7 +125,7 @@ namespace TaskRecorder
 
         public void ExportCSV(string path)
         {
-            IList<Task> all = dao.FindAll();
+            IList<Task> all = taskDao.FindAll();
 
             using (StreamWriter writer = new StreamWriter(path))
             {
@@ -122,7 +140,7 @@ namespace TaskRecorder
 
         public IList<Task> FindByDateRange(DateTime begin, DateTime end)
         {
-            return dao.FindByDateRange(begin, end);
+            return taskDao.FindByDateRange(begin, end);
         }
     }
 }
