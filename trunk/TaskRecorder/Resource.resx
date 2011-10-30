@@ -130,6 +130,7 @@ http://code.google.com/p/task-recorder/</value>
   <data name="DB_DDL" xml:space="preserve">
     <value>CREATE TABLE Task (
 	Id nvarchar(36) NOT NULL,
+	TemplateRef nvarchar(36) NULL,
 	Name nvarchar(200) NULL,
 	Category nvarchar(200) NULL,
 	Minutes int NOT NULL DEFAULT 0,
@@ -137,6 +138,13 @@ http://code.google.com/p/task-recorder/</value>
 	CONSTRAINT PK_Task PRIMARY KEY (Id)
 );
 
-CREATE INDEX IDX_Task_Date ON Task (Date);</value>
+CREATE INDEX IDX_Task_Date ON Task (Date);
+
+CREATE TABLE TaskTemplate (
+	Id nvarchar(36) NOT NULL,
+	Name nvarchar(200) NULL,
+	Category nvarchar(200) NULL,
+	CONSTRAINT PK_TaskTemplate PRIMARY KEY (Id)
+);</value>
   </data>
 </root>

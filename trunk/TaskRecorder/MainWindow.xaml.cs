@@ -15,12 +15,21 @@ namespace TaskRecorder
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            TabControl tabControl = (TabControl)sender;
-            TabItem tab = (TabItem)tabControl.SelectedItem;
-            if (tab.Header.ToString() == "Week")
+            if (e.Source is TabControl)
             {
-                WeekView weekView = (WeekView)tab.Content;
-                weekView.ReloadView();
+                TabControl tabControl = (TabControl)e.Source;
+                TabItem tab = (TabItem)tabControl.SelectedItem;
+
+                if (weekTab.IsSelected)
+                {
+                    WeekView weekView = (WeekView)tab.Content;
+                    weekView.ReloadView();
+                }
+                else if (dayTab.IsSelected)
+                {
+                    DayView dayView = (DayView)tab.Content;
+                    dayView.ReloadView();
+                }
             }
         }
 

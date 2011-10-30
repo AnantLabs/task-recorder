@@ -25,6 +25,11 @@ namespace TaskRecorder
             TaskService.Instance.PropertyChanged += new PropertyChangedEventHandler(TaskService_PropertyChanged);
         }
 
+        public void ReloadView()
+        {
+            TaskService.Instance.Reload();
+        }
+
         void TaskService_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Tasks")

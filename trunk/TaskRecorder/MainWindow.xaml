@@ -31,11 +31,14 @@
         </Menu>
 
         <TabControl Margin="5" SelectionChanged="TabControl_SelectionChanged" Grid.Row="1" Grid.Column="0">
-            <TabItem Header="Day">
+            <TabItem Header="Day" Name="dayTab">
                 <uc:DayView />
             </TabItem>
-            <TabItem Header="Week">
+            <TabItem Header="Week" Name="weekTab">
                 <uc:WeekView />
+            </TabItem>
+            <TabItem Header="Sticky tasks" Name="stickyTab" ToolTip="Repeating tasks that are created automatically every day">
+                <uc:TaskTemplates />
             </TabItem>
         </TabControl>
 

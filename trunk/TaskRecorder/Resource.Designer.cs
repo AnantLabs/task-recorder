@@ -91,6 +91,7 @@ namespace TaskRecorder {
         /// <summary>
         ///   Looks up a localized string similar to CREATE TABLE Task (
         ///	Id nvarchar(36) NOT NULL,
+        ///	TemplateRef nvarchar(36) NULL,
         ///	Name nvarchar(200) NULL,
         ///	Category nvarchar(200) NULL,
         ///	Minutes int NOT NULL DEFAULT 0,
@@ -98,7 +99,14 @@ namespace TaskRecorder {
         ///	CONSTRAINT PK_Task PRIMARY KEY (Id)
         ///);
         ///
-        ///CREATE INDEX IDX_Task_Date ON Task (Date);.
+        ///CREATE INDEX IDX_Task_Date ON Task (Date);
+        ///
+        ///CREATE TABLE TaskTemplate (
+        ///	Id nvarchar(36) NOT NULL,
+        ///	Name nvarchar(200) NULL,
+        ///	Category nvarchar(200) NULL,
+        ///	CONSTRAINT PK_TaskTemplate PRIMARY KEY (Id)
+        ///);.
         /// </summary>
         internal static string DB_DDL {
             get {
