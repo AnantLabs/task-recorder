@@ -108,7 +108,7 @@ namespace TaskRecorder
                     bool found = newTasks.Any(task => task.TemplateRef == template.Id);
                     if (!found)
                     {
-                        newTasks.Insert(0, new Task() { Name = template.Name, Category = template.Category, TemplateRef=template.Id });
+                        newTasks.Insert(0, new Task() { Name = template.Name, Category = template.Category, TemplateRef=template.Id, Date = CurrentDate });
                     }
                 }
 
