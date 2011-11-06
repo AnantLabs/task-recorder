@@ -39,7 +39,7 @@ namespace TaskRecorder
 
             if (hours != 0 && minutes != 0)
             {
-                return hours + "h " + minutes + "m";
+                return hours + "h " + Math.Abs(minutes) + "m";
             }
             else if (hours != 0)
             {
