@@ -523,15 +523,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Task Recorder"
-        "ProductCode" = "8:{C7D7FF33-F152-4548-9D9A-D520791F900D}"
-        "PackageCode" = "8:{2E5403E3-6012-40EF-A980-29FCF0B6280C}"
+        "ProductCode" = "8:{8BAB7B90-DFBE-4299-848D-F88F47DC1468}"
+        "PackageCode" = "8:{116CE57F-AE6E-4D21-B3B7-45379B8FEB44}"
         "UpgradeCode" = "8:{8B8BFC6B-FD7A-43F5-BAD8-86B4E3B3EA9C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0"
+        "ProductVersion" = "8:1.1"
         "Manufacturer" = "8:Mikko Väänänen"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://code.google.com/p/task-recorder/"
@@ -1073,7 +1073,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2D8E2C25CE8B45EFBA16609FF77E4758"
             {
-            "SourcePath" = "8:..\\TaskRecorder\\obj\\x86\\Release\\TaskRecorder.exe"
+            "SourcePath" = "8:..\\TaskRecorder\\obj\\x86\\Debug\\TaskRecorder.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_AF0C2E557D764DDE9285C29A44A2B1D8"
