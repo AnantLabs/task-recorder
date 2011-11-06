@@ -64,7 +64,7 @@ namespace TaskRecorder
         private void About_Click(object sender, RoutedEventArgs e)
         {
             Version version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            MessageBox.Show(Resource.AboutText, Resource.ApplicationName + " " + version.ToString(), MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(Resource.AboutText, Resource.ApplicationName + " " + version.ToString(2), MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)

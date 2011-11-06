@@ -142,14 +142,15 @@ namespace TaskRecorder
             NotifyPropertyChanged("WeekReportRows");
         }
 
-        public ICollection<WeekReportRow> WeekReportRows
+        public IList<WeekReportRow> WeekReportRows
         {
             get
             {
                 try
                 {
                     IList<Task> tasks = TaskService.Instance.FindByDateRange(WeekStartDate, WeekEndDate);
-                    return AddTotalRow(BuildReportRows(tasks));
+                    ICollection<WeekReportRow> result = SortByColumnAndDirection(BuildReportRows(tasks));
+                    return AddTotalRow(result);
                 }
                 catch (Exception ex)
                 {
@@ -157,6 +158,14 @@ namespace TaskRecorder
                     return new List<WeekReportRow>();
                 }
             }
+        }
+
+        private ICollection<WeekReportRow> SortByColumnAndDirection(ICollection<WeekReportRow> rows)
+        {
+            List<WeekReportRow> result = new List<WeekReportRow>();
+            result.AddRange(rows);
+            result.Sort(rowComparer);
+            return result;
         }
 
         private bool groupByCategory = false;
@@ -189,7 +198,7 @@ namespace TaskRecorder
                 {
                     if (GroupByCategory)
                     {
-                        row = new WeekReportRow() { Category = task.Category };
+                        row = new WeekReportRow() { Name = "", Category = task.Category };
                     }
                     else
                     {
@@ -204,7 +213,17 @@ namespace TaskRecorder
             return map.Values;
         }
 
-        private ICollection<WeekReportRow> AddTotalRow(ICollection<WeekReportRow> rows)
+        private IList<WeekReportRow> AddTotalRow(ICollection<WeekReportRow> rows)
+        {
+            WeekReportRow totalRow = GetTotalRow(rows);
+
+            List<WeekReportRow> result = new List<WeekReportRow>();
+            result.AddRange(rows);
+            result.Add(totalRow);
+            return result;
+        }
+
+        private WeekReportRow GetTotalRow(ICollection<WeekReportRow> rows)
         {
             WeekReportRow totalRow = new WeekReportRow() { Name = "Total" };
             if (GroupByCategory)
@@ -217,11 +236,61 @@ namespace TaskRecorder
                 totalRow[day] = rows.Sum(row => row[day]);
             }
 
-            List<WeekReportRow> result = new List<WeekReportRow>();
-            result.AddRange(rows);
-            result.Add(totalRow);
-            return result;
+            return totalRow;
         }
 
+        private RowComparer rowComparer = new RowComparer() { PropertyName = "Name", SortDirection = ListSortDirection.Ascending };
+
+        public class RowComparer : IComparer<WeekReportRow>
+        {
+            public string PropertyName { get; set; }
+            public ListSortDirection SortDirection { get; set; }
+
+            public int Compare(WeekReportRow x, WeekReportRow y)
+            {
+                IComparable valX = GetPropValue(x, PropertyName);
+                IComparable valY = GetPropValue(y, PropertyName);
+
+                return SortDirection == ListSortDirection.Ascending ? valX.CompareTo(valY) : valY.CompareTo(valX);
+            }
+
+            private IComparable GetPropValue(WeekReportRow row, string propName)
+            {
+                // reflection approach would be "cleaner" but hinders clarity...
+                switch (propName)
+                {
+                    case "Name": return row.Name;
+                    case "Category": return row.Category;
+                    case "Total": return row.Total;
+                    case "[0]": return row[DayOfWeek.Sunday];
+                    case "[1]": return row[DayOfWeek.Monday];
+                    case "[2]": return row[DayOfWeek.Tuesday];
+                    case "[3]": return row[DayOfWeek.Wednesday];
+                    case "[4]": return row[DayOfWeek.Thursday];
+                    case "[5]": return row[DayOfWeek.Friday];
+                    case "[6]": return row[DayOfWeek.Saturday];
+                    default: return null;
+                }
+            }
+        }
+
+        private ListSortDirection direction = ListSortDirection.Ascending;
+
+        private void weekGrid_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            e.Handled = true;
+            DataGridColumn column = e.Column;
+
+            rowComparer = new RowComparer() { PropertyName = column.SortMemberPath, SortDirection = direction };
+
+            NotifyPropertyChanged("WeekReportRows");
+
+            foreach (DataGridColumn c in weekGrid.Columns)
+            {
+                c.SortDirection = null;
+            }
+            column.SortDirection = direction;
+            direction = direction == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
+        }
     }
 }

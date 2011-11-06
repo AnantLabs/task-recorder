@@ -41,7 +41,7 @@ namespace TaskRecorder
         void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             UnAssignedMinutes += intervalMinutes;
-            if (Settings.Instance.NotifyOn)
+            if (Settings.Instance.NotifyOn && UnAssignedMinutes > 0)
             {
                 Notify();
             }
@@ -170,28 +170,15 @@ namespace TaskRecorder
 
             if (e.Direction == Microsoft.Windows.Controls.SpinDirection.Increase)
             {
-                if (task.IsToday)
-                {
-                    if (UnAssignedMinutes >= intervalMinutes)
-                    {
-                        task.Time += intervalMinutes;
-                        UnAssignedMinutes -= intervalMinutes;
-                    }
-                }
-                else
-                {
-                    task.Time += intervalMinutes;
-                }
+                task.Time += intervalMinutes;
+                UnAssignedMinutes -= intervalMinutes;
             }
             else
             {
                 if (task.Time >= intervalMinutes)
                 {
                     task.Time -= intervalMinutes;
-                    if (task.IsToday)
-                    {
-                        UnAssignedMinutes += intervalMinutes;
-                    }
+                    UnAssignedMinutes += intervalMinutes;
                 }
             }
         }

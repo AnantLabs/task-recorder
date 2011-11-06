@@ -24,14 +24,14 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Height="27" Margin="0, 0, 0, 5">
             <Label Content="Year" />
-            <extToolkit:ButtonSpinner Height="25" Spin="SpinYear">
-                <TextBox Text="{Binding Year}"/>
+            <extToolkit:ButtonSpinner Spin="SpinYear">
+                <TextBox Text="{Binding Year}" VerticalContentAlignment="Center" IsReadOnly="True"/>
             </extToolkit:ButtonSpinner>
             <Label Content="Week" Margin="5, 0, 0, 0" />
-            <extToolkit:ButtonSpinner Height="25" Margin="0, 0, 5, 0" Spin="SpinWeek">
-                <TextBox Text="{Binding Week}"/>
+            <extToolkit:ButtonSpinner Margin="0, 0, 5, 0" Spin="SpinWeek">
+                <TextBox Text="{Binding Week}" VerticalContentAlignment="Center" IsReadOnly="True" />
             </extToolkit:ButtonSpinner>
             <Label Content="{Binding Path=WeekStartDate, Converter={StaticResource dateConverter}}" />
             <Label Content="-" Padding="0, 5, 0, 5"/>
@@ -41,9 +41,9 @@
 
         <DataGrid Grid.Row="1" Grid.Column="0" Name="weekGrid" ItemsSource="{Binding WeekReportRows}" 
                   AlternatingRowBackground="#FFEBEBEB" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" 
-                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" Margin="0, 5, 0, 0" >
+                  CanUserAddRows="False" CanUserDeleteRows="False" CanUserReorderColumns="False" IsReadOnly="True" Sorting="weekGrid_Sorting">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Name}" x:Name="nameColumn" />
+                <DataGridTextColumn Width="*" Header="Name" Binding="{Binding Name}" x:Name="nameColumn" SortDirection="Ascending" />
                 <DataGridTextColumn Width="*" Header="Category" Binding="{Binding Category}" />
                 <DataGridTextColumn Width="50" Header="Mon" Binding="{Binding Path=[1], Converter={StaticResource minutesToTimeStringConverter}}" />
                 <DataGridTextColumn Width="50" Header="Tue" Binding="{Binding Path=[2], Converter={StaticResource minutesToTimeStringConverter}}" />

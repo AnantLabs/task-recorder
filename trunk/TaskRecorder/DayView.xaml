@@ -33,21 +33,21 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" Width="Auto" Orientation="Horizontal" >
-            <Button Click="AddTask_Click" ToolTip="Add new task" Margin="0, 0, 5, 5">
-                <Image Source="Icons/list_add.png"/>
+        <StackPanel Grid.Row="1" Grid.Column="0" Width="Auto" Orientation="Horizontal" Height="27" Margin="0, 0, 0, 5">
+            <Button Click="AddTask_Click" ToolTip="Add new task" BorderThickness="0" Padding="0">
+                <Image Source="Icons/list_add.png" Stretch="None" />
             </Button>
-            <Button Click="StartTimer_Click" ToolTip="Start timer" Margin="0, 0, 0, 5" IsEnabled="{Binding TimerNotRunning}" Style="{StaticResource DisabledImageStyle}">
-                <Image Source="Icons/media_playback_start.png"/>
+            <Button Click="StartTimer_Click" ToolTip="Start timer" IsEnabled="{Binding TimerNotRunning}" Style="{StaticResource DisabledImageStyle}" BorderThickness="0" Padding="0" Margin="10,0,0,0">
+                <Image Source="Icons/media_playback_start.png" Stretch="None"/>
             </Button>
-            <Button Click="PauseTimer_Click" ToolTip="Pause timer" Margin="0, 0, 0, 5" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}">
-                <Image Source="Icons/media_playback_pause.png"/>
+            <Button Click="PauseTimer_Click" ToolTip="Pause timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}" BorderThickness="0" Padding="0">
+                <Image Source="Icons/media_playback_pause.png" Stretch="None"/>
             </Button>
-            <Button Click="ResetTimer_Click" ToolTip="Reset timer" Margin="0, 0, 0, 5" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}">
-                <Image Source="Icons/media_playback_stop.png"/>
+            <Button Click="ResetTimer_Click" ToolTip="Reset timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}" BorderThickness="0" Padding="0">
+                <Image Source="Icons/media_playback_stop.png" Stretch="None"/>
             </Button>
-            <extToolkit:ButtonSpinner Spin="DateSpinner_Spin" FlowDirection="RightToLeft" Margin="20,0,20,0" Height="25">
-                <DatePicker BorderThickness="0" SelectedDate="{Binding Source={x:Static my:TaskService.Instance}, Path=CurrentDate}" FlowDirection="LeftToRight" />
+            <extToolkit:ButtonSpinner Spin="DateSpinner_Spin" FlowDirection="RightToLeft" Margin="10,0,0,0">
+                <DatePicker BorderThickness="0" SelectedDate="{Binding Source={x:Static my:TaskService.Instance}, Path=CurrentDate}" FlowDirection="LeftToRight" VerticalContentAlignment="Center" />
             </extToolkit:ButtonSpinner>
         </StackPanel>
         <DataGrid Grid.Row="2" Grid.Column="0" Name="dayGrid" ItemsSource="{Binding Source={x:Static my:TaskService.Instance}, Path=Tasks}" AlternatingRowBackground="#FFEBEBEB" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" CommandManager.PreviewExecuted="dgData_PreviewExecuted" SelectionMode="Single" CanUserAddRows="False">
