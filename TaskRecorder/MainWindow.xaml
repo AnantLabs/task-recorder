@@ -10,7 +10,7 @@
         Icon="/TaskRecorder;component/Icons/hourglass.ico"
         Closing="Window_Closing">
 
-    <Grid>
+    <Grid Style="{StaticResource MainWindowGrid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
