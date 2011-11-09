@@ -20,6 +20,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
     </Control.Resources>
 
     <Grid>
@@ -33,23 +34,28 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="1" Grid.Column="0" Width="Auto" Orientation="Horizontal" Height="27" Margin="0, 0, 0, 5">
-            <Button Click="AddTask_Click" ToolTip="Add new task" BorderThickness="0" Padding="0">
-                <Image Source="Icons/list_add.png" Stretch="None" />
-            </Button>
-            <Button Click="StartTimer_Click" ToolTip="Start timer" IsEnabled="{Binding TimerNotRunning}" Style="{StaticResource DisabledImageStyle}" BorderThickness="0" Padding="0" Margin="10,0,0,0">
-                <Image Source="Icons/media_playback_start.png" Stretch="None"/>
-            </Button>
-            <Button Click="PauseTimer_Click" ToolTip="Pause timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}" BorderThickness="0" Padding="0">
-                <Image Source="Icons/media_playback_pause.png" Stretch="None"/>
-            </Button>
-            <Button Click="ResetTimer_Click" ToolTip="Reset timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}" BorderThickness="0" Padding="0">
-                <Image Source="Icons/media_playback_stop.png" Stretch="None"/>
-            </Button>
-            <extToolkit:ButtonSpinner Spin="DateSpinner_Spin" FlowDirection="RightToLeft" Margin="10,0,0,0">
-                <DatePicker BorderThickness="0" SelectedDate="{Binding Source={x:Static my:TaskService.Instance}, Path=CurrentDate}" FlowDirection="LeftToRight" VerticalContentAlignment="Center" />
-            </extToolkit:ButtonSpinner>
-        </StackPanel>
+        <Border Grid.Row="1" Grid.Column="0" Width="Auto" Style="{StaticResource BorderStyle}" Margin="0, 0, 0, 5">
+            <StackPanel Width="Auto" Orientation="Horizontal" Height="31" Style="{StaticResource ToolbarStyle}">
+                <StackPanel Width="Auto" Orientation="Horizontal" Margin="2">
+                    <Button Click="AddTask_Click" ToolTip="Add new task" BorderThickness="0" Padding="0">
+                        <Image Source="Icons/list_add.png" Stretch="None" />
+                    </Button>
+                    <Button Click="StartTimer_Click" ToolTip="Start timer" IsEnabled="{Binding TimerNotRunning}" Style="{StaticResource DisabledImageStyle}" BorderThickness="0" Padding="0" Margin="10,0,0,0">
+                        <Image Source="Icons/media_playback_start.png" Stretch="None"/>
+                    </Button>
+                    <Button Click="PauseTimer_Click" ToolTip="Pause timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}" BorderThickness="0" Padding="0">
+                        <Image Source="Icons/media_playback_pause.png" Stretch="None"/>
+                    </Button>
+                    <Button Click="ResetTimer_Click" ToolTip="Reset timer" IsEnabled="{Binding TimerRunning}" Style="{StaticResource DisabledImageStyle}" BorderThickness="0" Padding="0">
+                        <Image Source="Icons/media_playback_stop.png" Stretch="None"/>
+                    </Button>
+                    <extToolkit:ButtonSpinner Spin="DateSpinner_Spin" FlowDirection="RightToLeft" Margin="10,0,0,0" Background="White">
+                        <DatePicker BorderThickness="0" SelectedDate="{Binding Source={x:Static my:TaskService.Instance}, Path=CurrentDate}" FlowDirection="LeftToRight" VerticalContentAlignment="Center" />
+                    </extToolkit:ButtonSpinner>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
         <DataGrid Grid.Row="2" Grid.Column="0" Name="dayGrid" ItemsSource="{Binding Source={x:Static my:TaskService.Instance}, Path=Tasks}" AlternatingRowBackground="#FFEBEBEB" AutoGenerateColumns="False" ClipboardCopyMode="IncludeHeader" CommandManager.PreviewExecuted="dgData_PreviewExecuted" SelectionMode="Single" CanUserAddRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Width="*" Binding="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" Header="Task name" />
@@ -59,7 +65,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <extToolkit:ButtonSpinner BorderThickness="0" Spin="TimeSpinner_Spin">
-                                <TextBox Text="{Binding Path=Time, Mode=TwoWay, UpdateSourceTrigger=LostFocus, Converter={StaticResource minutesToTimeStringConverter}}" BorderThickness="0" />
+                                <TextBox Text="{Binding Path=Time, Mode=TwoWay, UpdateSourceTrigger=LostFocus, Converter={StaticResource minutesToTimeStringConverter}}" BorderThickness="0" Background="Transparent" />
                             </extToolkit:ButtonSpinner>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
